@@ -1,13 +1,15 @@
+
 import React from 'react';
 import { Cloud } from './Cloud';
 
 interface PageLayoutProps {
   title: string;
   htmlContent: string;
+  backBtnText: string;
   onBack: () => void;
 }
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ title, htmlContent, onBack }) => {
+export const PageLayout: React.FC<PageLayoutProps> = ({ title, htmlContent, backBtnText, onBack }) => {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 flex flex-col relative overflow-hidden">
       {/* Header Background */}
@@ -24,7 +26,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ title, htmlContent, onBa
           type="button"
           className="mb-8 px-4 py-2 bg-white/90 rounded-full shadow hover:bg-white text-ocean-600 font-bold transition-all flex items-center gap-2 w-fit cursor-pointer z-50 relative"
         >
-          ← Back to Home
+          ← {backBtnText}
         </button>
 
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[0_8px_0_rgba(209,229,245,1)] border-4 border-card-border">

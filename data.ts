@@ -13,6 +13,7 @@ export interface LocalizedContent {
   featuresTitle: string;
   featuresList: string[];
   downloadBtn: string;
+  backBtn: string;
   footerText: string;
   
   // Legal & Support Content
@@ -59,6 +60,7 @@ export const content: ContentData = {
       "Lightweight and battery-friendly"
     ],
     downloadBtn: "Download on App Store",
+    backBtn: "Back to Home",
     footerText: "Made with ❤️ for readers everywhere.",
     
     // Legal & Support Content
@@ -152,6 +154,7 @@ export const content: ContentData = {
       "轻量省电"
     ],
     downloadBtn: "App Store 下载",
+    backBtn: "返回主页",
     footerText: "为每一位热爱阅读的人精心制作。",
     
     privacyTitle: "隐私政策",

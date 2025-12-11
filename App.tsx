@@ -6,7 +6,8 @@ import { Boat } from './components/Boat';
 import { Cloud } from './components/Cloud';
 import { Card } from './components/Card';
 import { PageLayout } from './components/PageLayout';
-import { content, Language } from './data';
+import { content } from './data';
+import type { Language } from './data';
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('en');
@@ -16,11 +17,14 @@ const App: React.FC = () => {
   // Handle URL Hash changes for routing (e.g., #privacy, #terms)
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash;
+      // Clean hash: remove # and query params if any
+      const hash = window.location.hash.split('?')[0]; 
+      
       if (hash === '#privacy') setView('privacy');
       else if (hash === '#terms') setView('terms');
       else if (hash === '#support') setView('support');
       else setView('home');
+      
       window.scrollTo(0, 0);
     };
 
@@ -32,22 +36,14 @@ const App: React.FC = () => {
   }, []);
 
   const navigateTo = (newView: 'home' | 'privacy' | 'terms' | 'support') => {
-    window.scrollTo(0, 0);
-    
+    // Simply set the hash. The 'hashchange' event listener will handle the state update.
+    // This is the most reliable way to navigate in a hash-based router.
     if (newView === 'home') {
-      // Use pushState to cleanly remove the hash from the URL
-      // This is better than window.location.hash = '' which might leave a #
-      if (window.history && window.history.pushState) {
-        window.history.pushState(null, '', window.location.pathname + window.location.search);
-      } else {
-        window.location.hash = '';
-      }
-      // Force view update since pushState doesn't trigger hashchange
-      setView('home');
+      // Setting hash to empty string removes it but might leave a '#' in some browsers,
+      // which is fine and correctly triggers the listener.
+      window.location.hash = ''; 
     } else {
       window.location.hash = newView;
-      // View will update via hashchange listener, but we set it here for immediate feedback
-      setView(newView);
     }
   };
 
@@ -58,13 +54,13 @@ const App: React.FC = () => {
 
   // Render Sub-pages
   if (view === 'privacy') {
-    return <PageLayout title={t.privacyTitle} htmlContent={t.privacyContent} onBack={() => navigateTo('home')} />;
+    return <PageLayout title={t.privacyTitle} htmlContent={t.privacyContent} backBtnText={t.backBtn} onBack={() => navigateTo('home')} />;
   }
   if (view === 'terms') {
-    return <PageLayout title={t.termsTitle} htmlContent={t.termsContent} onBack={() => navigateTo('home')} />;
+    return <PageLayout title={t.termsTitle} htmlContent={t.termsContent} backBtnText={t.backBtn} onBack={() => navigateTo('home')} />;
   }
   if (view === 'support') {
-    return <PageLayout title={t.supportTitle} htmlContent={t.supportContent} onBack={() => navigateTo('home')} />;
+    return <PageLayout title={t.supportTitle} htmlContent={t.supportContent} backBtnText={t.backBtn} onBack={() => navigateTo('home')} />;
   }
 
   // Render Home Page
